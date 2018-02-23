@@ -29,7 +29,7 @@ app.post('/create-user', function(req, res, next) {
   user.email = req.body.email;
   
   user.save(function(err) {
-    if (err) next(err);
+    if (err) return next(err);
     res.json('successfully created a new user')
   });
 });
