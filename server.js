@@ -20,6 +20,7 @@ mongoose.connect('mongodb://root:toor@ds245218.mlab.com:45218/amazon-clone', fun
 
 
 //middleware
+app.use(express.static(__dirname + '/public'));
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
