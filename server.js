@@ -2,6 +2,9 @@ var express = require('express');
 var morgan = require('morgan');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
+var ejs = require('ejs');
+var ejsMate = require('ejs-mate');
+
 
 var User = require('./models/user');
 
@@ -20,6 +23,8 @@ mongoose.connect('mongodb://root:toor@ds245218.mlab.com:45218/amazon-clone', fun
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+app.engine('ejs', ejsMate);
+app.set('view engine', 'ejs');
 
 app.post('/create-user', function(req, res, next) {
   var user = new User();
@@ -32,6 +37,10 @@ app.post('/create-user', function(req, res, next) {
     if (err) return next(err);
     res.json('successfully created a new user')
   });
+});
+
+app.get('/', function(req, res) {
+  res.render('home');
 });
 
 
