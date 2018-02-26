@@ -9,12 +9,12 @@ var cookieParser = require('cookie-parser');
 var flash = require('express-flash');
 
 
-
+var secret = require('./config/secret');
 var User = require('./models/user');
 
 var app = express();
 
-mongoose.connect('mongodb://root:toor@ds245218.mlab.com:45218/amazon-clone', function(err) {
+mongoose.connect(secret.database, function(err) {
   if (err) {
     console.log(err);
   } else {
@@ -32,7 +32,7 @@ app.use(cookieParser());
 app.use(session({
   resave: true,
   saveUninitialized: true,
-  secret: "123abc"
+  secret: secret.secretKey
 }));
 app.use(flash());
 app.engine('ejs', ejsMate);
@@ -45,7 +45,7 @@ app.use(mainRoutes);
 app.use(userRoutes);
 
 
-app.listen(4000, function(err) {
+app.listen(secret.port, function(err) {
   if (err) throw err;
-  console.log('server is running on http://localhost:4000');
+  console.log('server is running on http://localhost:' + secret.port);
 });
