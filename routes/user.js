@@ -1,5 +1,6 @@
 var router = require('express').Router();
 var User = require('../models/user');
+var faker = require('faker');
 var passport = require('passport');
 var passportConf = require('../config/passport');
 
