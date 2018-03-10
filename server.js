@@ -1,4 +1,3 @@
-
 var express = require('express');
 var morgan = require('morgan');
 var mongoose = require('mongoose');
@@ -15,6 +14,8 @@ var passport = require('passport');
 var secret = require('./config/secret');
 var User = require('./models/user');
 var Category = require('./models/category');
+
+var cartLength = require('./middlewares/middlewares');
 
 var app = express();
 
@@ -46,6 +47,7 @@ app.use(function(req, res, next) {
   next();
 });
 
+app.use(cartLength);
 app.use(function(req, res, next) {
   Category.find({}, function(err, categories) {
     if (err) return next(err);
