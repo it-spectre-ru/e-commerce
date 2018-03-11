@@ -68,7 +68,7 @@ $(function() {
       priceValue -= parseFloat($('#priceHidden').val());
       quantity -= 1;
     }
-    
+
     $('#quantity').val(quantity);
     $('#priceValue').val(priceValue.toFixed(2));
     $('#total').html(quantity);
