@@ -1,5 +1,7 @@
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var FacebookStrategy = require('passport-facebook').Strategy;
+var secret = require('../config/secret');
 var User = require('../models/user');
 
 // serialize and deserialize
@@ -31,6 +33,30 @@ passport.use('local-login', new LocalStrategy({
       return done(null, false, req.flash('loginMessage', 'Oops! Wrong Password pal'));
     }
     return done(null, user);
+  });
+}));
+
+
+passport.use(new FacebookStrategy(secret.facebook, function(token, refreshToken, profile, done) {
+  User.findOne({facebook: profile.id}, function(err, user) {
+    if (err) return done (err);
+
+    if (user) {
+      return done(null, user);
+    } else {
+      var newUser = new User();
+      newUser.email = profile._json.email;
+      newUser.facebook = profile.id;
+      newUser.tokens.push({kind: 'facebook', token: token});
+      newUser.profile.name = profile.displayName;
+      newUser.profile.picture = 'http://graph.facebook.com/' + profile.id + '/picture?type=large';
+
+      newUser.save(function(err) {
+        if (err) throw err;
+
+        return done(null, newUser);
+      });
+    }
   });
 }));
 
