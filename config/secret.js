@@ -1,7 +1,7 @@
 module.exports = {
   database: 'mongodb://root:toor@ds245218.mlab.com:45218/amazon-clone',
   port: 4000,
-  secretKey: '123abc'
+  secretKey: '123abc',
 
   facebook: {
     clientID: process.env.FACEBOOK_ID || '149839915711070',
